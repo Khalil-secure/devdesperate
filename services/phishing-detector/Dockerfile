@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "smtp_server.py"]
+CMD ["sh", "-c", "python smtp_server.py & uvicorn api:app --host 0.0.0.0 --port 8001"]

@@ -22,5 +22,6 @@ services:
     build: ./services/phishing-detector
     ports:
       - "1025:1025"
+      - "8001:8001"
     env_file:
       - .env

@@ -171,3 +171,31 @@ async def check_domain_alienvault(domain: str) -> dict:
     except Exception as e:
         logger.error(f"AlienVault domain check failed: {e}")
     return {"source": "alienvault", "target": domain, "verdict": "UNKNOWN"}
+
+    # ── Google Safe Browsing ──────────────────────────────────────────
+
+GOOGLE_SAFEBROWSING_API_KEY = os.getenv("GOOGLE_SAFEBROWSING_API_KEY")
+
+async def check_url_safebrowsing(urls: list) -> dict:
+    endpoint = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={GOOGLE_SAFEBROWSING_API_KEY}"
+    payload = {
+        "client": {"clientId": "devdesperate", "clientVersion": "1.0"},
+        "threatInfo": {
+            "threatTypes": ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
+            "platformTypes": ["ANY_PLATFORM"],
+            "threatEntryTypes": ["URL"],
+            "threatEntries": [{"url": u} for u in urls]
+        }
+    }
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            r = await client.post(endpoint, json=payload)
+        if r.status_code == 200:
+            matches = r.json().get("matches", [])
+            if matches:
+                flagged = [m["threat"]["url"] for m in matches]
+                return {"source": "safebrowsing", "verdict": "PHISHING", "flagged_urls": flagged}
+            return {"source": "safebrowsing", "verdict": "SAFE"}
+    except Exception as e:
+        logger.error(f"Safe Browsing check failed: {e}")
+    return {"source": "safebrowsing", "verdict": "UNKNOWN"}
