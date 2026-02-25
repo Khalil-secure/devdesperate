@@ -1,0 +1,16 @@
+# Environment variables - never commit these
+.env
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Docker
+*.log
+
+# VS Code
+.vscode/
