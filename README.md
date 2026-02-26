@@ -1,4 +1,4 @@
-# DevDesperate 🛡️
+# MailGuard 🛡️
 
 > A production-grade cybersecurity SaaS built by a junior dev who refused to give up.
 
@@ -8,7 +8,7 @@
 
 ## What is this?
 
-DevDesperate is a microservices-based email phishing detection platform. You paste any suspicious email, and the system cross-references it against 5 global threat intelligence databases in real time, returning a clear verdict: **SAFE**, **SUSPICIOUS**, or **PHISHING**.
+MailGuard is a microservices-based email phishing detection platform. You paste any suspicious email, and the system cross-references it against 5 global threat intelligence databases in real time, returning a clear verdict: **SAFE**, **SUSPICIOUS**, or **PHISHING**.
 
 Built from scratch with Python, Node.js, Docker, and deployed on Google Cloud — this is both a portfolio project and a real, usable security tool.
 
@@ -89,7 +89,7 @@ AI Service            Phishing Detector
 ## Project Structure
 
 ```
-devdesperate/
+MailGuard/
 ├── docker-compose.yml
 ├── .env.example
 ├── .gitignore
@@ -125,8 +125,8 @@ devdesperate/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/devdesperate.git
-cd devdesperate
+git clone https://github.com/YOUR_USERNAME/MailGuard.git
+cd MailGuard
 ```
 
 ### 2. Set up environment variables
@@ -228,7 +228,7 @@ POST /ai/summarize
 
 ```bash
 # Create VM
-gcloud compute instances create devdesperate \
+gcloud compute instances create MailGuard \
   --machine-type=e2-medium \
   --image-family=ubuntu-2204-lts \
   --image-project=ubuntu-os-cloud \
@@ -237,7 +237,7 @@ gcloud compute instances create devdesperate \
   --zone=europe-west1-b
 
 # SSH in
-gcloud compute ssh devdesperate --zone=europe-west1-b
+gcloud compute ssh MailGuard --zone=europe-west1-b
 
 # Install Docker
 curl -fsSL https://get.docker.com | sh
@@ -246,8 +246,8 @@ newgrp docker
 sudo apt-get install -y docker-compose-plugin
 
 # Clone and run
-git clone https://github.com/YOUR_USERNAME/devdesperate.git
-cd devdesperate
+git clone https://github.com/YOUR_USERNAME/MailGuard.git
+cd MailGuard
 cp .env.example .env
 nano .env  # fill in your keys
 docker compose up -d
@@ -297,3 +297,4 @@ If you're hiring, you just watched the whole process. Here's the repo.
 ## License
 
 MIT
+
