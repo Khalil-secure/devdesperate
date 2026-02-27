@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 VAULT_ADDR = os.getenv("VAULT_ADDR", "http://vault:8200")
-VAULT_TOKEN = os.getenv("VAULT_TOKEN", "mailguard-root-token")
+VAULT_TOKEN = os.getenv("VAULT_TOKEN")
 
 def get_secrets() -> dict:
     try:
