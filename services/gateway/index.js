@@ -1,26 +1,26 @@
 const express = require('express')
+const cors = require('cors')
 const { createProxyMiddleware } = require('http-proxy-middleware')
 const axios = require('axios')
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 
-// Gateway health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'gateway' })
 })
 
-// Proxy /ai/* to ai-service
 app.use('/ai', createProxyMiddleware({
   target: 'http://ai-service:8000',
   changeOrigin: true,
   pathRewrite: { '^/ai': '' }
 }))
 
-// Manual proxy for phishing-detector (slow responses need full control)
 app.use('/phishing', async (req, res) => {
   try {
-    const url = `http://phishing-detector:8001${req.path}`
+    const targetPath = req.originalUrl.replace('/phishing', '')
+    const url = `http://phishing-detector:8001${targetPath || '/'}`
     const response = await axios({
       method: req.method,
       url: url,
