@@ -13,4 +13,5 @@ __pycache__/
 *.log
 
 # VS Code
-.vscode/
+.vscode/.env.backup
+.env*
