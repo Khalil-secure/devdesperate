@@ -15,8 +15,8 @@ Built with a microservices architecture, Google OAuth authentication, PostgreSQL
 ---
 
 ## Architecture
+<img width="2525" height="1724" alt="mermaid-diagram-2026-02-28-154242" src="https://github.com/user-attachments/assets/67a59f01-5583-4892-8f61-46f7dbe355eb" />
 
-![[mermaid-diagram-2026-02-28-154242.png]]
 
 ### Containers
 
@@ -282,4 +282,5 @@ If you're a recruiter or hiring manager reading this: you just read the commit h
 ## License
 
 MIT
+
 
