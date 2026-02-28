@@ -15,3 +15,5 @@ __pycache__/
 # VS Code
 .vscode/.env.backup
 .env*
+cloudflared.deb
+cloudflared.log
