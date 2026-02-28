@@ -625,16 +625,21 @@ Failure to verify within 24 hours will result in permanent account closure.
   let authToken = localStorage.getItem('mg_token');
 
   // Handle OAuth callback — token in URL
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('token')) {
-    authToken = urlParams.get('token');
-    localStorage.setItem('mg_token', authToken);
-    const name = urlParams.get('name');
-    if (name) localStorage.setItem('mg_name', decodeURIComponent(name));
-    window.history.replaceState({}, '', '/');
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-    chrome.storage.local.set({ mg_token: authToken }); }
-  }
+  // Handle OAuth callback — token in URL
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('token')) {
+  authToken = urlParams.get('token');
+  localStorage.setItem('mg_token', authToken);
+  const name = urlParams.get('name');
+  if (name) localStorage.setItem('mg_name', decodeURIComponent(name));
+  
+  // Send token to Chrome extension storage
+  try {
+    window.postMessage({ type: 'MAILGUARD_TOKEN', token: authToken }, '*');
+  } catch(e) {}
+  
+  window.history.replaceState({}, '', '/');
+}
 
   // Update UI based on auth state
   async function updateAuthUI() {
