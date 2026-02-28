@@ -16,31 +16,7 @@ Built with a microservices architecture, Google OAuth authentication, PostgreSQL
 
 ## Architecture
 
-```
-Browser (Vercel — HTTPS)
-        │
-        ▼
-Cloudflare Tunnel (HTTPS)
-        │
-        ▼
-Nginx Reverse Proxy (:80)
-        │
-        ▼
-API Gateway (Node.js/Express :3000)
-        │                    │
-        ▼                    ▼
-AI Service            Phishing Detector
-(FastAPI :8000)       (FastAPI :8001 + SMTP :1025)
-        │                    │
-        ▼                    ▼
-  HuggingFace         VirusTotal · AlienVault OTX
-                      AbuseIPDB · Google Safe Browsing
-                      Typosquatting Engine
-        │
-        ▼
-HashiCorp Vault (:8200)     PostgreSQL (:5432)
-(Secrets management)        (Users + scan tracking)
-```
+![[mermaid-diagram-2026-02-28-154242.png]]
 
 ### Containers
 
@@ -306,3 +282,4 @@ If you're a recruiter or hiring manager reading this: you just read the commit h
 ## License
 
 MIT
+
