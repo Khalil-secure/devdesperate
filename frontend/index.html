@@ -632,6 +632,8 @@ Failure to verify within 24 hours will result in permanent account closure.
     const name = urlParams.get('name');
     if (name) localStorage.setItem('mg_name', decodeURIComponent(name));
     window.history.replaceState({}, '', '/');
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+    chrome.storage.local.set({ mg_token: authToken }); }
   }
 
   // Update UI based on auth state
