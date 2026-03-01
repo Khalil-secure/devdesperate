@@ -644,22 +644,22 @@ if (urlParams.get('token')) {
   // Update UI based on auth state
   async function updateAuthUI() {
     if (!authToken) {
-      document.getElementById('loginBtn').style.display = 'flex';
-      document.getElementById('userSection').style.display = 'none';
-      return;
+      document.getElementById('loginBtn').style.display = 'flex'
+      document.getElementById('userSection').style.display = 'none'
+      return
     }
     try {
       const res = await fetch(`${API}/auth/me`, {
         headers: { Authorization: `Bearer ${authToken}` }
-      });
-      if (!res.ok) throw new Error('Invalid token');
-      const user = await res.json();
-      document.getElementById('loginBtn').style.display = 'none';
-      document.getElementById('userSection').style.display = 'flex';
-      document.getElementById('userName').textContent = user.name.split(' ')[0];
-      document.getElementById('scanCounter').textContent = `${user.scans_remaining} scans left today`;
+      })
+      if (!res.ok) throw new Error('Invalid token')
+      const user = await res.json()
+      document.getElementById('loginBtn').style.display = 'none'
+      document.getElementById('userSection').style.display = 'flex'
+      document.getElementById('userName').textContent = user.name.split(' ')[0]
+      document.getElementById('scanCounter').textContent = `${user.scans_remaining} scans left today`
     } catch {
-      logout();
+      logout()
     }
   }
 
@@ -750,11 +750,23 @@ if (urlParams.get('token')) {
         return;
       }
 
-      if (res.status === 401) {
-        logout();
-        window.location.href = `${API}/auth/google`;
-        return;
+     if (res.status === 401) {
+        const data = await res.json()
+        if (data.error === 'free_limit_reached') {
+          document.getElementById('errorText').innerHTML = `
+            You've used all 5 free scans. 
+            <a href="${API}/auth/google" style="color:#4f46e5;font-weight:600">
+              Sign in with Google
+            </a> 
+            for 10 scans/day free.
+          `
+          errorBar.classList.add('active')
+          return
       }
+  logout()
+  window.location.href = `${API}/auth/google`
+  return
+}
 
       if (!res.ok) throw new Error(`Server error ${res.status}`);
       renderResult(await res.json());
