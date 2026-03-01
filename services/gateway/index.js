@@ -58,7 +58,7 @@ function ipRateLimit(req, res, next) {
 function checkFreeTier(req, res, next) {
   const ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip
   const now = Date.now()
-  const windowMs = 24 * 60 * 60 * 1000 // 24 hours
+  const windowMs = 24 * 60 * 60 * 1000
 
   if (!ipFreeScans.has(ip)) ipFreeScans.set(ip, [])
   const scans = ipFreeScans.get(ip).filter(t => now - t < windowMs)
@@ -71,6 +71,13 @@ function checkFreeTier(req, res, next) {
       limit: 5
     })
   }
+
+  scans.push(now)
+  ipFreeScans.set(ip, scans)
+  req.freeScansUsed = scans.length
+  req.freeScansRemaining = 5 - scans.length
+  next()
+}
 
   scans.push(now)
   ipFreeScans.set(ip, scans)
